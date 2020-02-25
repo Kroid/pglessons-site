@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<title>Install PostgreSQL from source code - Postgres Lessons</title>
+<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+  <body><header>
+  <h1>
+    <a href="/">Postgres Lessons</a>
+  </h1>
+  <nav>
+    <ul>
+      <li>
+        <a href="/" class="">Lessons</a>
+      </li>
+<!--       <li>
+        <a href="/blog" class="">Blog</a>
+      </li> -->
+      <li>
+        <a href="/about" class="">About</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+<div class="container">
+      <div class="lesson-container">
+  <h1>Install PostgreSQL from source code</h1>
+  <div class="lesson-tags"><span>Getting Started</span></div>
+
+  <p>In this article we are going to install PostgreSQL from source code. I will show the installation process on Ubuntu as the most popular distribution. To understand the lesson, you must be able to use the command line.</p>
+
+<!--more-->
+
+<h2 id="step-one---install-dependencies">Step One - Install dependencies</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>build-essential libreadline-dev zlib1g-dev flex bison libxml2-dev libxslt-dev libssl-dev
+</code></pre></div></div>
+
+<p>Also, for download postgres source code, you need to install <code class="highlighter-rouge">git</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>git
+</code></pre></div></div>
+
+<h2 id="step-two---install-postgresql">Step Two - Install postgresql</h2>
+
+<p><strong>First</strong>, you need to download source code from repository. You can do this from <code class="highlighter-rouge">git.postgresql.org</code> or from it’s github mirror <code class="highlighter-rouge">github.com/postgres/postgres</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone git://git.postgresql.org/git/postgresql.git
+<span class="nb">cd </span>postgresql/
+</code></pre></div></div>
+
+<p>You can choose which version to install by swinthing to the right branch.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>postgresql<span class="nv">$ </span>git branch <span class="nt">-a</span>
+<span class="k">*</span> master
+  remotes/origin/HEAD -&gt; origin/master
+  remotes/origin/REL2_0B
+  remotes/origin/REL6_4
+  remotes/origin/REL6_5_PATCHES
+  remotes/origin/REL7_0_PATCHES
+  remotes/origin/REL7_1_STABLE
+  remotes/origin/REL7_2_STABLE
+  remotes/origin/REL7_3_STABLE
+  remotes/origin/REL7_4_STABLE
+  remotes/origin/REL8_0_STABLE
+  remotes/origin/REL8_1_STABLE
+  remotes/origin/REL8_2_STABLE
+  remotes/origin/REL8_3_STABLE
+  remotes/origin/REL8_4_STABLE
+  remotes/origin/REL8_5_ALPHA1_BRANCH
+  remotes/origin/REL8_5_ALPHA2_BRANCH
+  remotes/origin/REL8_5_ALPHA3_BRANCH
+  remotes/origin/REL9_0_ALPHA4_BRANCH
+  remotes/origin/REL9_0_ALPHA5_BRANCH
+  remotes/origin/REL9_0_STABLE
+  remotes/origin/REL9_1_STABLE
+  remotes/origin/REL9_2_STABLE
+  remotes/origin/REL9_3_STABLE
+  remotes/origin/REL9_4_STABLE
+  remotes/origin/REL9_5_STABLE
+  remotes/origin/REL9_6_STABLE
+  remotes/origin/REL_10_STABLE
+  remotes/origin/REL_11_STABLE
+  remotes/origin/REL_12_STABLE
+  remotes/origin/Release_1_0_3
+  remotes/origin/WIN32_DEV
+  remotes/origin/ecpg_big_bison
+  remotes/origin/master
+</code></pre></div></div>
+
+<p>As you can see above, this is list of stable versions from 6 to 12. And master branch is current development version. In this lesson, we will will choose version 12:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout REL_12_STABLE
+</code></pre></div></div>
+
+<p><strong>Second</strong>, configure and install postgresql. You can choose a path where postgres will be installed. For example, it will be <code class="highlighter-rouge">/usr/local/pgsql</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./configure <span class="nt">--prefix</span><span class="o">=</span>/usr/local/pgsql
+</code></pre></div></div>
+
+<p>After the configuration, we can start the installation. You can install only postgres, only some extensions or postgres with extensions.</p>
+
+<ul>
+  <li>Install only PostgreSQL:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make
+<span class="nb">sudo </span>make <span class="nb">install</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Install PostgreSQL, extensions and docs:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make world
+<span class="nb">sudo </span>make install-world
+</code></pre></div>    </div>
+  </li>
+  <li>Install extensions:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>contrib
+make
+<span class="nb">sudo </span>make <span class="nb">install</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="step-three---after-installation">Step three - after installation</h2>
+
+<p>You need to create postgres user:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>adduser postgres
+<span class="nb">sudo </span>su - postgres
+<span class="nb">echo</span> <span class="s1">'PATH=/usr/local/pgsql/bin:$PATH'</span> <span class="o">&gt;&gt;</span> .bashrc
+<span class="nb">source</span> .bashrc
+</code></pre></div></div>
+
+<p>After that create pgdata dir and change it’s owner:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo mkdir</span> /usr/local/pgsql/data
+<span class="nb">sudo chown </span>postgres /usr/local/pgsql/data
+</code></pre></div></div>
+
+<p>Initialize postgres database cluster:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>su - postgres
+initdb <span class="nt">-k</span> <span class="nt">-D</span> /usr/local/pgsql/data <span class="c"># "-k" enabled data page checksums</span>
+</code></pre></div></div>
+
+<h2 id="check-our-postgres">Check our postgres</h2>
+
+<p>Start server:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>su - postgres
+pg_ctl <span class="nt">-w</span> <span class="nt">-l</span> /home/postgres/logfile <span class="nt">-D</span> /usr/local/pgsql/data start
+</code></pre></div></div>
+
+<p>Check our postgres is working:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>psql <span class="nt">-U</span> postgres <span class="nt">-c</span> <span class="s1">'select now();'</span>
+             now              
+<span class="nt">------------------------------</span>
+ 2020-02-25 18:06:59.97087+03
+<span class="o">(</span>1 row<span class="o">)</span>
+</code></pre></div></div>
+
+<p>After that you can stop server. To do this, use the command <code class="highlighter-rouge">pg_ctl stop -m fast|smart|immediate</code>. You can specify one of the three stop modes in the -m key:</p>
+
+<p><code class="highlighter-rouge">fast</code> - forcefully stops sessions and writes changes from RAM to disk;</p>
+
+<p><code class="highlighter-rouge">smart</code> - waits for all sessions to end and writes changes to disk;</p>
+
+<p><code class="highlighter-rouge">immediate</code> - forcefully stops sessions and will need to be restored at startup.</p>
+
+<p>By default, the mode is <code class="highlighter-rouge">fast</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>su - postgres
+pg_ctl <span class="nt">-w</span> <span class="nt">-D</span> /usr/local/pgsql/data stop
+</code></pre></div></div>
+
+</div>
+
+    </div><div class="newsletter-form-container">
+  <h2 class="newsletter-form-title">Subscribe to new lessons</h2>
+  <form
+    action="https://tinyletter.com/Kroid"
+    method="post"
+    target="popupwindow"
+    onsubmit="window.open('https://tinyletter.com/Kroid', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true"
+  >
+    <input type="email" id="email" name="email" class="newsletter-form-input" placeholder="Email" />
+    <input type="hidden" value="1" name="embed"/>
+    <input type="submit" value="Subscribe" class="newsletter-form-submit"/>
+  </form>
+</div>
+<footer class="container">
+  2020 (c) pglessons.com
+</footer>
+</body>
+</html>

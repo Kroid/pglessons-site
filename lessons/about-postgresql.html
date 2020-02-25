@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<title>About PostgreSQL - Postgres Lessons</title>
+<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+  <body><header>
+  <h1>
+    <a href="/">Postgres Lessons</a>
+  </h1>
+  <nav>
+    <ul>
+      <li>
+        <a href="/" class="">Lessons</a>
+      </li>
+<!--       <li>
+        <a href="/blog" class="">Blog</a>
+      </li> -->
+      <li>
+        <a href="/about" class="">About</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+<div class="container">
+      <div class="lesson-container">
+  <h1>About PostgreSQL</h1>
+  <div class="lesson-tags"><span>Getting Started</span></div>
+
+  <p>PostgreSQL is open-source relational database management system.</p>
+
+<!--more-->
+
+<p>It is a sufficiently stable and reliable solution, also for highload. Support partitioning and replication out-of-the-box or with extensions.</p>
+
+<p>Besides general data types postgres support geometry types (points, circles), GIS types (coordinates, polygons), and user-defined types. Some featudes from no-sql databases such as json and array are also supported.</p>
+
+<p>With <code class="highlighter-rouge">LISTEN-NOTIFY</code> it can be used as message broker, as backend for background workers or as notification system (not recommend for highload).</p>
+
+<p>Postgres is fast. In a single core it can, per second:</p>
+
+<ul>
+  <li>scan 5 million rows</li>
+  <li>aggregate 1 million rows</li>
+  <li>10’000 single rows insert</li>
+  <li>100’000 bulk rows insert</li>
+</ul>
+
+<p>Official site: <a href="https://www.postgresql.org/">https://www.postgresql.org/</a></p>
+
+<p>Documentation: <a href="https://www.postgresql.org/docs/current/index.html">https://www.postgresql.org/docs/current/index.html</a></p>
+
+</div>
+
+    </div><div class="newsletter-form-container">
+  <h2 class="newsletter-form-title">Subscribe to new lessons</h2>
+  <form
+    action="https://tinyletter.com/Kroid"
+    method="post"
+    target="popupwindow"
+    onsubmit="window.open('https://tinyletter.com/Kroid', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true"
+  >
+    <input type="email" id="email" name="email" class="newsletter-form-input" placeholder="Email" />
+    <input type="hidden" value="1" name="embed"/>
+    <input type="submit" value="Subscribe" class="newsletter-form-submit"/>
+  </form>
+</div>
+<footer class="container">
+  2020 (c) pglessons.com
+</footer>
+</body>
+</html>
